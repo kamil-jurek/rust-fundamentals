@@ -22,5 +22,5 @@ fn process_numbers(numbers: &[i32]) {
 
 
 fn main() {
-    process_numbers(&[1,2,3]);
+    process_numbers(&[1,2,3,4,5]);
 }

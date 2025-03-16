@@ -1,6 +1,26 @@
-fn own_vec(mut vector: Vec<i32>) {
+use core::borrow;
+use std::vec;
+
+fn own_vec(vector: &mut Vec<i32>) -> Vec<i32> {
+    let mut new_vector = Vec::new();
+    
+    println!("vector (before append): {:?}", vector);
+
+    // append vector to new_vector
+    new_vector.append(vector);
+
+    new_vector.push(10);
+    println!("vector (after append): {:?}", vector);
+    
+    println!("new_vector: {:?}", new_vector);
+    
+    new_vector
+}
+
+fn own_vec_2(vector: &mut Vec<i32>) {
+    println!("vector (before push): {:?}", vector);
     vector.push(10);
-    println!("{:?}", vector);
+    println!("vector (after push): {:?}", vector);
 }
 
 fn own_integer(x: i32) {
@@ -8,6 +28,16 @@ fn own_integer(x: i32) {
 }
 
 fn own_string(s: String) {
+    println!("{}", s);
+}
+
+fn borrow_vec(vector: &Vec<i32>) {
+    println!("{:?}", vector);
+}
+
+fn borrow_string(s: &mut String) {
+    println!("{}", s);
+    s.push_str(" plus string");
     println!("{}", s);
 }
 
@@ -26,11 +56,18 @@ fn main() {
 
     own_string(my_string); // take ownership of my_string
     // this is using my_string which has also moved and is invalid
-    //println!("{:?}", my_string); // this will not compile!
+    // println!("{:?}", my_string); // this will not compile!
 
-    own_vec(my_vec);
+    // own_vec(&mut my_vec);
+    own_vec_2( &mut my_vec);
     // but this is using my_vec which was borrowed (moved) and yet is now invalid
-    //println!("{:?}", my_vec); // this will not compile!
+    println!("{:?}", my_vec); // this will now compile!
+
+    borrow_vec(&my_vec);
+
+    let mut my_string_2 = String::from("Hello, world, again!");
+    borrow_string(&mut my_string_2);
+
 }
 
 // Borrowing is a key concept in Rust because it allows you to write code that is both safe and efficient. 
